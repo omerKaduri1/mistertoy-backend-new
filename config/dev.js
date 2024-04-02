@@ -1,4 +1,4 @@
 export default {
-  dbURL: 'mongodb+srv://kaduriomer:4xFj3jlxYzPbc8IR@cluster0.lewfsaj.mongodb.net/',
+  dbURL: 'mongodb://127.0.0.1:27017',
   dbName: 'toyDB'
 }
