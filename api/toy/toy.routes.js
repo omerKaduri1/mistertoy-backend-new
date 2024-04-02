@@ -3,14 +3,19 @@ import { requireAuth, requireAdmin } from '../../middlewares/requireAuth.middlew
 import { log } from '../../middlewares/logger.middleware.js'
 import { getToys, getToyById, addToy, updateToy, removeToy, addToyMsg, removeToyMsg } from './toy.controller.js'
 
-export const toyRoutes = express.Router()
+const router = express.Router()
 
-// middleware that is specific to this router
-toyRoutes.get('/', log, getToys)
-toyRoutes.get('/:id', getToyById)
-toyRoutes.post('/', addToy)
-toyRoutes.put('/:id', updateToy)
-toyRoutes.delete('/:id', removeToy)
+// We can add a middleware for the entire router:
+// router.use(requireAuth)
 
-toyRoutes.post('/:id/msg', addToyMsg)
-toyRoutes.delete('/:id/msg/:msgId', removeToyMsg)
+router.get('/', log, getToys)
+router.get('/:id', getToyById)
+router.post('/', requireAuth, addToy)
+router.put('/:id', requireAuth, updateToy)
+// router.delete('/:id', requireAuth, removeToy)
+router.delete('/:id', requireAuth, requireAdmin, removeToy)
+
+router.post('/:id/msg', requireAuth, addToyMsg)
+router.delete('/:id/msg/:msgId', requireAuth, removeToyMsg)
+
+export const toyRoutes = router
